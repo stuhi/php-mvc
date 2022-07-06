@@ -1,0 +1,18 @@
+{
+    "name": "injix/mvc",
+    "description": "MVC Framework",
+    "type": "library",
+    "license": "mit",
+    "autoload": {
+        "psr-4": {
+            "Injix\\Mvc\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "injix"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
