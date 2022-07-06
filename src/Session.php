@@ -11,7 +11,7 @@ class Session
         $userAgent = $_SERVER['HTTP_USER_AGENT'];
         if (!self::isset('REMOTE_ADDR')) self::set('REMOTE_ADDR', $userHostAddress);
         if (!self::isset('HTTP_USER_AGENT')) self::set('HTTP_USER_AGENT', $userAgent);
-        if($userHostAddress != self::get('REMOTE_ADDR') || $userAgent != self::get('HTTP_USER_AGENT'))
+        if ($userHostAddress != self::get('REMOTE_ADDR') || $userAgent != self::get('HTTP_USER_AGENT'))
         {
             session_destroy();
             self::set('REMOTE_ADDR', $userHostAddress);
