@@ -86,7 +86,7 @@ class Route
                     }
                     else $value = $isPost ? $_REQUEST[$name] : $args[$i];
 
-                    if ($value == null && $reflectionParam->getType()->allowsNull())
+                    if (($value == null || $value == 'null') && $reflectionParam->getType()->allowsNull())
                     {
                         $params[] = null;
                     }
