@@ -1,16 +1,16 @@
 {
-    "name": "injix/mvc",
+    "name": "stuhi/mvc",
     "description": "MVC Framework",
     "type": "library",
     "license": "mit",
     "autoload": {
         "psr-4": {
-            "Injix\\Mvc\\": "src/"
+            "Stuhi\\Mvc\\": "src/"
         }
     },
     "authors": [
         {
-            "name": "injix"
+            "name": "stuhi"
         }
     ],
     "minimum-stability": "dev",
