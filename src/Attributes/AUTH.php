@@ -1,8 +1,8 @@
 <?php
-namespace Injix\Mvc\Attributes;
+namespace Stuhi\Mvc\Attributes;
 
 use \Attribute;
-use Injix\Mvc\Session;
+use Stuhi\Mvc\Session;
 
 #[Attribute]
 class AUTH
