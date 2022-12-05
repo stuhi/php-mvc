@@ -1,5 +1,5 @@
 <?php
-namespace Injix\Mvc;
+namespace Stuhi\Mvc;
 
 class Partial
 {
