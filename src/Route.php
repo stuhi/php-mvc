@@ -7,26 +7,6 @@ use \ReflectionMethod;
 
 class Route
 {
-    public static function startApps(array $routing)
-    {
-        $key = '';
-        $url = '';
-        $link = $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
-        $keys = array_keys($routing);
-        $count = count($keys);
-        for ($i = 0; $i < $count; $i++)
-        {
-            if (str_starts_with($link, $keys[$i]))
-            {
-                $key = $keys[$i];
-                $url = str_replace($key, '', $link);
-                $i = $count;
-            } 
-        }
-        if ($key != '') self::startApp($routing[$key], $url);
-        else self::startApp(end($routing), $_SERVER['REQUEST_URI']);
-    }
-
     public static function startApp(string $controllerNamespace, string $url, string $defaultController = 'Home', string $defaultAction = 'index')
     {
         $method = ucfirst(strtolower($_SERVER['REQUEST_METHOD']));
