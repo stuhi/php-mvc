@@ -5,7 +5,7 @@
     "license": "mit",
     "autoload": {
         "psr-4": {
-            "Stuhi\\Mvc\\": "src/"
+            "Mvc\\": "src/"
         }
     },
     "authors": [
