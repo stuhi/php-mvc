@@ -1,5 +1,5 @@
 <?php
-namespace Stuhi\Mvc;
+namespace Mvc;
 
 class Controller
 {
