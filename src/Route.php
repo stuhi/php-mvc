@@ -40,7 +40,7 @@ class Route
             else $args[] = $item;
         }
 
-        $controller = new $controllerClass();
+        $controller = $controllerClass::getController();
         $reflectionClass = new ReflectionClass($controllerClass);
         $reflectionMethod = new ReflectionMethod($controllerClass, $actionName);
 
