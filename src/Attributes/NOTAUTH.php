@@ -1,8 +1,8 @@
 <?php
-namespace Stuhi\Mvc\Attributes;
+namespace Mvc\Attributes;
 
 use \Attribute;
-use Stuhi\Mvc\Session;
+use Mvc\Session;
 
 #[Attribute]
 class NOTAUTH
