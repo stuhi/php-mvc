@@ -11,16 +11,12 @@ class Route
     {
         $method = ucfirst(strtolower($_SERVER['REQUEST_METHOD']));
         $isPost = $method == 'Post';
-
         $urlArray = explode('/', explode('?', $_SERVER['REQUEST_URI'])[0]);
         $countUrlArray = count($urlArray);
-
         $countControllerNamespaces = count($controllerNamespaces);
         $controllerClass = "{$controllerNamespaces[0]}\\{$defaultController}Controller";
         $actionName = $defaultAction  . ($method != 'Get' ? $method : '');
-
         $args = array();
-
         for ($i = 1; $i < $countUrlArray; $i++)
         {
             $item = $urlArray[$i];
@@ -53,7 +49,6 @@ class Route
         $controller = ($singletonFunction != '') ? $controllerClass::$singletonFunction() : new $controllerClass();
         $reflectionClass = new ReflectionClass($controllerClass);
         $reflectionMethod = new ReflectionMethod($controllerClass, $actionName);
-
         $hasAttributeContent = false;
         if (self::runAttribute($reflectionClass, $hasAttributeContent) && self::runAttribute($reflectionMethod, $hasAttributeContent))
         {
