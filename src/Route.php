@@ -77,8 +77,19 @@ class Route
                     }
                     else if ($type == 'array')
                     {
-                        $value = $isPost ? $_REQUEST : $args; 
-                        $count = $i;
+                        if ($isPost) 
+                        {
+                            $value = $_REQUEST;
+                            $count = $i;
+                        }
+                        else
+                        {
+                            $value = array();
+                            for (; $i < $count; $i++)
+                            {
+                                $value[] = $args[$i];
+                            }
+                        }
                     }
                     else $value = $isPost ? $_REQUEST[$name] : $args[$i];
 
