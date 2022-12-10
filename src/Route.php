@@ -7,15 +7,16 @@ use \ReflectionMethod;
 
 class Route
 {
-    public static function startApp(string $controllerNamespace, string $url, string $defaultController = 'Home', string $defaultAction = 'index')
+    public static function startApp(array $controllerNamespaces, string $singletonFunction = '', string $defaultController = 'Home', string $defaultAction = 'index')
     {
         $method = ucfirst(strtolower($_SERVER['REQUEST_METHOD']));
         $isPost = $method == 'Post';
 
-        $urlArray = explode('/', explode('?', $url)[0]);
+        $urlArray = explode('/', explode('?', $_SERVER['REQUEST_URI'])[0]);
         $countUrlArray = count($urlArray);
 
-        $controllerClass = "{$controllerNamespace}\\{$defaultController}Controller";
+        $countControllerNamespaces = count($controllerNamespaces);
+        $controllerClass = "{$controllerNamespaces[0]}\\{$defaultController}Controller";
         $actionName = $defaultAction;
 
         $args = array();
@@ -27,9 +28,18 @@ class Route
 
             if ($i == 1) 
             {
-                $controllerClassCandidate = "{$controllerNamespace}\\" . self::normalize($item, true) . 'Controller';
-                if (class_exists($controllerClassCandidate)) $controllerClass = $controllerClassCandidate;
-                else $args[] = $item;
+                $controllerSet = false;
+                for ($j = 0; $j < $countControllerNamespaces; $j++)
+                {
+                    $controllerClassCandidate = "{$controllerNamespaces[$j]}\\" . self::normalize($item, true) . 'Controller';
+                    if (class_exists($controllerClassCandidate)) 
+                    {
+                        $controllerClass = $controllerClassCandidate;
+                        $controllerSet = true;
+                        break;
+                    }
+                }
+                if (!$controllerSet) $args[] = $item;
             }
             else if ($i == 2) 
             {
@@ -40,7 +50,7 @@ class Route
             else $args[] = $item;
         }
 
-        $controller = $controllerClass::getController();
+        $controller = ($singletonFunction != '') ? $controllerClass::$singletonFunction() : new $controllerClass();
         $reflectionClass = new ReflectionClass($controllerClass);
         $reflectionMethod = new ReflectionMethod($controllerClass, $actionName);
 
