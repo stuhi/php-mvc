@@ -17,7 +17,7 @@ class Route
 
         $countControllerNamespaces = count($controllerNamespaces);
         $controllerClass = "{$controllerNamespaces[0]}\\{$defaultController}Controller";
-        $actionName = $defaultAction;
+        $actionName = $defaultAction  . ($method != 'Get' ? $method : '');
 
         $args = array();
 
@@ -54,7 +54,8 @@ class Route
         $reflectionClass = new ReflectionClass($controllerClass);
         $reflectionMethod = new ReflectionMethod($controllerClass, $actionName);
 
-        if (self::runAttribute($reflectionClass) && self::runAttribute($reflectionMethod))
+        $hasAttributeContent = false;
+        if (self::runAttribute($reflectionClass, $hasAttributeContent) && self::runAttribute($reflectionMethod, $hasAttributeContent))
         {
             $reflectionParams = $reflectionMethod->getParameters();
             $countParams = count($reflectionParams);
@@ -69,7 +70,12 @@ class Route
                     $name = $reflectionParam->getName();
                     $type = $reflectionParam->getType()->getName();
                     $value = null;
-                    if ($type == 'array')
+                    if ($hasAttributeContent)
+                    {
+                        $value = file_get_contents('php://input'); 
+                        $count = $i;
+                    }
+                    else if ($type == 'array')
                     {
                         $value = $isPost ? $_REQUEST : $args; 
                         $count = $i;
@@ -114,13 +120,17 @@ class Route
         return $result;
     }
 
-    private static function runAttribute($reflection) : bool
+    private static function runAttribute($reflection, &$hasAttributeContent) : bool
     {
         $reflectionAttrs = $reflection->getAttributes();
         $countAttrs = count($reflectionAttrs);
         $result = $countAttrs == 0;
         for ($i = 0; $i < $countAttrs; $i++)
         {
+            if ($reflectionAttrs[$i]->getName() == 'Mvc\Attributes\CONTENT')
+            {
+                 $hasAttributeContent = true;
+            }
             $listener = $reflectionAttrs[$i]->newInstance();
             $result = $listener->result;
         }
